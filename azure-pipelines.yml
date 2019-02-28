@@ -25,6 +25,6 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 - script: dotnet pack  -p:PackageVersion=$(majorVersion).$(minorVersion).$(patchVersion) --configuration $(buildConfiguration) --include-symbols
   displayName: 'dotnet pack $(buildConfiguration)'
-- script: dotnet nuget push Markdig.Slack.nupkg -k $(PublicNuget.apiKey) -s https://api.nuget.org/v3/index.json
+- script: dotnet nuget push Markdig.Slack.nupkg -k $(apiKey) -s https://api.nuget.org/v3/index.json
   displayName: 'dotnet push'
 
