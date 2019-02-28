@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Markdig.Renderer.Slack\Markdig.Slack.csproj" />
+    <ProjectReference Include="..\Markdig.Slack\Markdig.Slack.csproj" />
   </ItemGroup>
 
 </Project>
