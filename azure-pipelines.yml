@@ -11,11 +11,14 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  majorVersion: 1
+  minorVersion: 0
+  patchVersion: $(Build.BuildId)
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-- script: dotnet pack --configuration $(buildConfiguration) --include-symbols
+- script: dotnet pack  -p:PackageVersion=$(majorVersion).$(minorVersion).$(patchVersion) --configuration $(buildConfiguration) --include-symbols
   displayName: 'dotnet pack $(buildConfiguration)'
 - script: dotnet nuget push Markdig.Slack.nupkg
   displayName: 'dotnet push'
