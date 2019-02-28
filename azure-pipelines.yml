@@ -10,8 +10,21 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
-  buildConfiguration: 'Release'
+- group: PublicNuget
+- name: buildConfiguration
+  value: 'Release'
+- name: majorVersion
+  value: 1
+- name: minorVersion
+  value: 0
+- name: patchVersion
+  value: $(Build.BuildId)
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+- script: dotnet pack  -p:PackageVersion=$(majorVersion).$(minorVersion).$(patchVersion) --configuration $(buildConfiguration) --include-symbols
+  displayName: 'dotnet pack $(buildConfiguration)'
+- script: dotnet nuget push $(Build.SourcesDirectory)/Markdig.Slack/bin/Release/Markdig.Slack.$(majorVersion).$(minorVersion).$(patchVersion).nupkg -k $(apiKey) -s https://api.nuget.org/v3/index.json
+  displayName: 'dotnet push'
+
