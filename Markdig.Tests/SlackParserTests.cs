@@ -42,5 +42,16 @@ namespace Markdig.Tests
 			var slackText = stringWriter.ToString();
 			Assert.Equal("Code  \nTexte", slackText);
 		}
+
+		[Fact]
+		public void WhenSlackContainsLinkWithNoLabelThenMarkdownRenderIsOk()
+		{
+			var stringWriter = new StringWriter();
+			Markdown.Convert("Code <https://whyse.co> Texte", new NormalizeRenderer(stringWriter),
+				new MarkdownPipelineBuilder().Use<SlackExtension>().Build());
+			stringWriter.Flush();
+			var slackText = stringWriter.ToString();
+			Assert.Equal("Code [https://whyse.co](https://whyse.co) Texte", slackText);
+		}
 	}
 }

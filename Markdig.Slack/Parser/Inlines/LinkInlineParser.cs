@@ -68,6 +68,8 @@ namespace Markdig.Slack.Parser.Inlines
 			}
 			if (url is null)
 				url = urlBuilder.ToString();
+			if (label is null)
+				label = url;
 
 			var linkInline = new LinkInline()
 			{
@@ -82,7 +84,8 @@ namespace Markdig.Slack.Parser.Inlines
 				Column = column,
 				IsClosed = true
 			};
-			linkInline.AppendChild(new LiteralInline(label));
+			if (label != null)
+				linkInline.AppendChild(new LiteralInline(label));
 			processor.Inline = linkInline;
 			processor.StringBuilders.Release(urlBuilder);
 			processor.StringBuilders.Release(labelBuilder);
