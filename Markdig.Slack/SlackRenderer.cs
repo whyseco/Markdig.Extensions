@@ -10,6 +10,7 @@ namespace Markdig.Slack
 	{
 		public SlackRenderer(TextWriter writer) : base(writer)
 		{
+			ObjectRenderers.Clear();
 			ObjectRenderers.Add(new HeadingRenderer());
 			ObjectRenderers.Add(new HtmlBlockRenderer());
 			ObjectRenderers.Add(new ListRenderer());
@@ -20,12 +21,13 @@ namespace Markdig.Slack
 			ObjectRenderers.Add(new AutolinkInlineRenderer());
 			ObjectRenderers.Add(new CodeInlineRenderer());
 			ObjectRenderers.Add(new DelimiterInlineRenderer());
-			ObjectRenderers.Add(new EmphasisInlineRenderer());
+			ObjectRenderers.Add(new Markdig.Slack.SlackObjects.Inlines.EmphasisInlineRenderer());
 			ObjectRenderers.Add(new HtmlEntityInlineRenderer());
 			ObjectRenderers.Add(new HtmlInlineRenderer());
 			ObjectRenderers.Add(new LineBreakInlineRenderer());
 			ObjectRenderers.Add(new LinkInlineRenderer());
 			ObjectRenderers.Add(new LiteralInlineRenderer());
+			ObjectRenderers.Add(new ContainerInlineRenderer());
 		}
 
 		public override object Render(MarkdownObject markdownObject)

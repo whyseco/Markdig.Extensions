@@ -24,7 +24,7 @@ namespace Markdig.Tests
 			Markdown.Convert("Lien https://app.whyse.co Texte", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAdvancedExtensions().Build());
 			stringWriter.Flush();
 			var slackText = stringWriter.ToString();
-			Assert.Equal("Lien <https://app.whyse.co> Texte", slackText);
+			Assert.Equal("Lien <https://app.whyse.co|https://app.whyse.co> Texte", slackText);
 		}
 
 		[Fact]
@@ -95,6 +95,16 @@ namespace Markdig.Tests
 			stringWriter.Flush();
 			var slackText = stringWriter.ToString();
 			Assert.Equal("Code\n --- \nTexte", slackText);
+		}
+
+		[Fact]
+		public void WhenMarkdownContainsOnlyBoldThenSlackRenderIsOk()
+		{
+			var stringWriter = new StringWriter();
+			Markdown.Convert("**bold**", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAdvancedExtensions().Build());
+			stringWriter.Flush();
+			var slackText = stringWriter.ToString();
+			Assert.Equal("*bold*", slackText);
 		}
 	}
 }
