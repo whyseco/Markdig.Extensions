@@ -21,7 +21,7 @@ namespace Markdig.Tests
 		public void WhenMarkdownContainsAutoLinkThenSlackRenderIsOk()
 		{
 			var stringWriter = new StringWriter();
-			Markdown.Convert("Lien https://app.whyse.co Texte", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAdvancedExtensions().Build());
+			Markdown.Convert("Lien https://app.whyse.co Texte", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAuthorizedExtensions().Build());
 			stringWriter.Flush();
 			var slackText = stringWriter.ToString();
 			Assert.Equal("Lien <https://app.whyse.co|https://app.whyse.co> Texte", slackText);
@@ -51,7 +51,7 @@ namespace Markdig.Tests
 		public void WhenMarkdownContainsEmphasisThenSlackRenderIsOk()
 		{
 			var stringWriter = new StringWriter();
-			Markdown.Convert("Code *italic* _italic_ __bold__ **bold** ~~strike~~ Texte", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAdvancedExtensions().Build());
+			Markdown.Convert("Code *italic* _italic_ __bold__ **bold** ~~strike~~ Texte", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAuthorizedExtensions().Build());
 			stringWriter.Flush();
 			var slackText = stringWriter.ToString();
 			Assert.Equal("Code _italic_ _italic_ *bold* *bold* ~strike~ Texte", slackText);
@@ -101,10 +101,20 @@ namespace Markdig.Tests
 		public void WhenMarkdownContainsOnlyBoldThenSlackRenderIsOk()
 		{
 			var stringWriter = new StringWriter();
-			Markdown.Convert("**bold**", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAdvancedExtensions().Build());
+			Markdown.Convert("**bold**", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAuthorizedExtensions().Build());
 			stringWriter.Flush();
 			var slackText = stringWriter.ToString();
 			Assert.Equal("*bold*", slackText);
+		}
+
+		[Fact]
+		public void WhenMarkdownContainsManyEmojiThenSlackRenderIsOk()
+		{
+			var stringWriter = new StringWriter();
+			Markdown.Convert("Thks !!!! :robot_face::robot_face::robot_face:", new SlackRenderer(stringWriter), new MarkdownPipelineBuilder().UseAuthorizedExtensions().Build());
+			stringWriter.Flush();
+			var slackText = stringWriter.ToString();
+			Assert.Equal("Thks !!!! :robot_face::robot_face::robot_face:", slackText);
 		}
 	}
 }
